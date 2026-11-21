@@ -751,6 +751,14 @@ class MovieViewModel(
         return true
     }
 
+    // [PLUGIN:stalker-mac-pool] Reopen the current movie after a Stalker source/MAC update.
+    fun reopenCurrentAfterSourceUpdate() {
+        val movie = _playingMovie.value ?: return
+        val pos = player.position.value.coerceAtLeast(0L)
+        player.stop()
+        play(movie, startPositionMs = pos)
+    }
+
     /** Download states for the currently visible movies, keyed by movie id. */
     val downloadStates: StateFlow<Map<Long, DownloadEntity>> = ctx
         .flatMapLatest { c -> if (c.profileId < 0) flowOf(emptyList()) else downloadManager.observe(c.profileId) }

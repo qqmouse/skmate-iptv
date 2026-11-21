@@ -356,6 +356,7 @@ val verifyI18nLiterals = tasks.register<VerifyI18nLiterals>("verifyI18nLiterals"
 tasks.named("preBuild") { dependsOn(verifyI18nLiterals) }
 
 dependencies {
+    implementation(project(":stalker-mac-pool")) // [PLUGIN:stalker-mac-pool]
     implementation(libs.lottie.compose)
     // The shared data/settings/sync module, built from source in /engine.
     implementation(libs.owntv.core)

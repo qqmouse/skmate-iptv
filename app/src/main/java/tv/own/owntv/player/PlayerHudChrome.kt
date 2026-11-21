@@ -330,6 +330,7 @@ internal fun BottomBar(
     favorite: Boolean = false, onToggleFavorite: (() -> Unit)? = null,
     onPreviousChannel: (() -> Unit)? = null,
     onOtherChannels: (() -> Unit)? = null, otherChannelsCount: Int = 0,
+    onSwitchMac: (() -> Unit)? = null, // [PLUGIN:stalker-mac-pool]
     onOpenDialog: (HudDialog) -> Unit, onPip: (() -> Unit)?, onAudioMode: (() -> Unit)?,
     onMultiview: (() -> Unit)? = null, onRecordThis: (() -> Unit)? = null, recordingThis: Boolean = false,
     /** Given to whichever timeline is drawn, so Left/Right with the controls hidden can land on it. */
@@ -509,6 +510,13 @@ internal fun BottomBar(
                         PlayerControl.OTHER_CHANNELS, PlayerControl.MATCH, PlayerControl.CHANNEL_LIST,
                         -> Unit
                     }
+                }
+                // [PLUGIN:stalker-mac-pool] Quick MAC switch button when playing a pooled Stalker source.
+                if (onSwitchMac != null) {
+                    CtrlButton(
+                        OwnTVIcon.SWAP,
+                        label = stringResource(tv.own.owntv.plugin.stalkermacpool.R.string.smp_hud_switch_mac),
+                    ) { onSwitchMac() }
                 }
             }
         }

@@ -440,6 +440,35 @@ fun OwnTVShell(
         watchingSourceId?.let { watchSession.open(it) }
         onDispose { watchingSourceId?.let { watchSession.close(it) } }
     }
+    // [PLUGIN:stalker-mac-pool] Publish active playback context for MAC failover switching.
+    val macPoolPlaybackHolder = koinInject<tv.own.owntv.plugin.stalkermacpool.playback.StalkerPlaybackSessionHolder>()
+    DisposableEffect(watchingSourceId, zapSource, previewChannel?.id, playingMovie?.id, playingSeries?.id) {
+        val ctx = watchingSourceId?.let { srcId ->
+            when (zapSource) {
+                MainSection.LIVE_TV -> tv.own.owntv.plugin.stalkermacpool.model.ActivePlaybackContext(
+                    sourceId = srcId,
+                    channelId = previewChannel?.id,
+                    mediaKind = tv.own.owntv.plugin.stalkermacpool.model.PlaybackMediaKind.LIVE,
+                    reopenAfterMacSwitch = liveVm::reopenCurrentAfterSourceUpdate,
+                )
+                MainSection.MOVIES -> tv.own.owntv.plugin.stalkermacpool.model.ActivePlaybackContext(
+                    sourceId = srcId,
+                    channelId = null,
+                    mediaKind = tv.own.owntv.plugin.stalkermacpool.model.PlaybackMediaKind.MOVIE,
+                    reopenAfterMacSwitch = movieVm::reopenCurrentAfterSourceUpdate,
+                )
+                MainSection.SERIES -> tv.own.owntv.plugin.stalkermacpool.model.ActivePlaybackContext(
+                    sourceId = srcId,
+                    channelId = null,
+                    mediaKind = tv.own.owntv.plugin.stalkermacpool.model.PlaybackMediaKind.SERIES,
+                    reopenAfterMacSwitch = seriesVm::reopenCurrentAfterSourceUpdate,
+                )
+                else -> null
+            }
+        }
+        macPoolPlaybackHolder.setActive(ctx)
+        onDispose { macPoolPlaybackHolder.clear() }
+    }
     // Current programme per channel for the in-player channel list overlay (small subtitle under each row).
     // Only resolved while the overlay is actually open. Keyed on the channel set so a zap-list change re-resolves.
     // Shares the Live list's resolved titles, so opening the overlay over a list already on screen

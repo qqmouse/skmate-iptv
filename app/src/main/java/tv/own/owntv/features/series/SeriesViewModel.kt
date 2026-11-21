@@ -920,6 +920,20 @@ class SeriesViewModel(
         return true
     }
 
+    // [PLUGIN:stalker-mac-pool] Reopen the current episode after a Stalker source/MAC update.
+    fun reopenCurrentAfterSourceUpdate() {
+        val show = _playingSeries.value ?: return
+        val episode = playingEpisodeRef?.episode ?: return
+        val pos = player.position.value.coerceAtLeast(0L)
+        val cachedQueue = playingQueue?.takeIf { it.show.id == show.id }?.episodes
+        player.stop()
+        if (!cachedQueue.isNullOrEmpty()) {
+            playEpisodeQueue(show, cachedQueue, episode, pos)
+        } else {
+            viewModelScope.launch { playFromHomeAsync(show.id, episode.id, pos) }
+        }
+    }
+
     fun closeSeries() {
         _openedSeries.value = null
     }

@@ -80,6 +80,7 @@ fun ManageSourcesScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
     val defaultPortalName = stringResource(R.string.setup_default_portal)
 
     var showAdd by remember { mutableStateOf(false) }
+    var showMacPool by remember { mutableStateOf(false) } // [PLUGIN:stalker-mac-pool]
     // Within "Add source": null = the Remote|Manual chooser, else the chosen path.
     var addMode by remember { mutableStateOf<AddMode?>(null) }
     var editingSource by remember { mutableStateOf<SourceEntity?>(null) }
@@ -102,8 +103,8 @@ fun ManageSourcesScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
     // Whenever the list view is showing (no add form / edit form / delete dialog on top), restore
     // focus inside the list — not on "Add Source" as before, which is what pushed focus out of the
     // menu. contextId/contextFocus decide the specific row; firstRowFocus is the empty-list fallback.
-    LaunchedEffect(showAdd, editingSource, confirmDelete) {
-        if (showAdd || editingSource != null || confirmDelete != null) return@LaunchedEffect
+    LaunchedEffect(showAdd, showMacPool, editingSource, confirmDelete) { // [PLUGIN:stalker-mac-pool]
+        if (showAdd || showMacPool || editingSource != null || confirmDelete != null) return@LaunchedEffect
         kotlinx.coroutines.delay(120)
         val targetId = contextId
         if (targetId != null && sources.any { it.id == targetId }) {
@@ -145,6 +146,7 @@ fun ManageSourcesScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
 
     BackHandler {
         when {
+            showMacPool -> showMacPool = false // [PLUGIN:stalker-mac-pool]
             showAdd -> { showAdd = false; addMode = null; vm.stopRemoteListener(); vm.cancelImport() }
             editingSource != null -> editingSource = null
             else -> onBack()
@@ -153,7 +155,13 @@ fun ManageSourcesScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
 
     androidx.compose.runtime.CompositionLocalProvider(LocalFormWindow provides true) {
     Box(modifier = modifier.fillMaxSize()) {
-        if (editingSource != null) {
+        if (showMacPool) { // [PLUGIN:stalker-mac-pool]
+            tv.own.owntv.plugin.StalkerMacPoolHostScreen(
+                onBack = { showMacPool = false },
+                autoFocusOnStart = true,
+                modifier = Modifier.fillMaxSize(),
+            )
+        } else if (editingSource != null) {
             val src = editingSource!!
             AddSourceScreen(
                 initial = src,
@@ -324,6 +332,14 @@ fun ManageSourcesScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
                     value = null,
                     onClick = { showAdd = true },
                     modifier = Modifier.focusRequester(addFocus),
+                )
+                // [PLUGIN:stalker-mac-pool] Quick shortcut to Stalker MAC Pool
+                StageSettingRow(
+                    icon = tv.own.owntv.ui.components.OwnTVIcon.SWAP,
+                    title = stringResource(tv.own.owntv.plugin.stalkermacpool.R.string.smp_menu_title),
+                    desc = stringResource(tv.own.owntv.plugin.stalkermacpool.R.string.smp_menu_desc),
+                    value = null,
+                    onClick = { showMacPool = true },
                 )
             }
         }

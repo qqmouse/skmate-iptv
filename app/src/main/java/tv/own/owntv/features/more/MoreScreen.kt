@@ -68,7 +68,7 @@ import tv.own.owntv.ui.theme.stageAccent
 import tv.own.owntv.ui.theme.stageText
 
 /** The sheet's items, top to bottom. [DEVELOPER] exists only in local builds (BuildConfig.DEV_TOOLS). */
-private enum class MoreItem { SETTINGS, FAVORITES, HISTORY, BACKUP, LOCAL_SYNC, ABOUT, DEVELOPER }
+private enum class MoreItem { SETTINGS, FAVORITES, HISTORY, STALKER_MAC_POOL, BACKUP, LOCAL_SYNC, ABOUT, DEVELOPER } // [PLUGIN:stalker-mac-pool]
 
 /**
  * More: the glass section sheet, topped by the profile, and one page on the right
@@ -205,6 +205,7 @@ fun MoreScreen(
             GroupLabel(stringResource(R.string.more_group_your_things))
             item(MoreItem.FAVORITES, OwnTVIcon.FAVORITE, stringResource(R.string.content_category_favorites), favorites.total.toString(), false)
             item(MoreItem.HISTORY, OwnTVIcon.HISTORY, stringResource(R.string.content_category_history), history.total.toString(), false)
+            item(MoreItem.STALKER_MAC_POOL, OwnTVIcon.SWAP, stringResource(tv.own.owntv.plugin.stalkermacpool.R.string.smp_menu_title), null, false) // [PLUGIN:stalker-mac-pool]
             GroupLabel(stringResource(R.string.more_group_keep_safe))
             item(
                 MoreItem.BACKUP, OwnTVIcon.DOWNLOADS, stringResource(R.string.settings_backup_restore),
@@ -249,6 +250,7 @@ fun MoreScreen(
                     entry = pageTarget, pinned = pinned.size,
                     extras = if (!sheetOnly) emptyList() else listOfNotNull(
                         SettingsExtra(OwnTVIcon.DOWNLOADS, stringResource(R.string.settings_short_backup)) { choose(MoreItem.BACKUP) },
+                        SettingsExtra(OwnTVIcon.SWAP, stringResource(tv.own.owntv.plugin.stalkermacpool.R.string.smp_menu_title)) { choose(MoreItem.STALKER_MAC_POOL) }, // [PLUGIN:stalker-mac-pool]
                         SettingsExtra(OwnTVIcon.PHONE, stringResource(R.string.settings_short_sync)) { choose(MoreItem.LOCAL_SYNC) },
                         SettingsExtra(OwnTVIcon.INFO, stringResource(R.string.settings_short_about)) { choose(MoreItem.ABOUT) },
                         SettingsExtra(OwnTVIcon.PERSON, stringResource(R.string.more_profile_switch), onClick = onSwitchProfile),
@@ -264,6 +266,12 @@ fun MoreScreen(
                     vm = vm, setEntry = setEntry,
                     onClearHistory = { settingsVm.clearWatchHistory(it) },
                     onPlayChannel = onPlayChannel, onPlayMovie = onPlayMovie, onPlayEpisode = onPlayEpisode, onOpenSeries = onOpenSeries,
+                )
+                // [PLUGIN:stalker-mac-pool]
+                MoreItem.STALKER_MAC_POOL -> tv.own.owntv.plugin.StalkerMacPoolHostScreen(
+                    onBack = { if (sheetOnly) { selected = MoreItem.SETTINGS; pageEntry = null } else backToSheet() },
+                    entryFocus = pageTarget,
+                    modifier = Modifier.fillMaxSize(),
                 )
                 MoreItem.BACKUP -> InSheet(sheetOnly, stringResource(R.string.settings_backup_restore)) { BackupScreen(entry = pageTarget, modifier = Modifier.fillMaxSize()) }
                 MoreItem.LOCAL_SYNC -> InSheet(sheetOnly, stringResource(R.string.local_sync_title)) { LocalSyncScreen(entry = pageTarget, modifier = Modifier.fillMaxSize()) }

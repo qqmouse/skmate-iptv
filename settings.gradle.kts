@@ -37,4 +37,6 @@ include(":app")
 // Baseline-profile generator. Test-only module: it ships nothing to users, it records
 // the cold-start journey on a device and writes the profile :app packages.
 include(":baselineprofile")
- 
+// [PLUGIN:stalker-mac-pool] Standalone Stalker MAC Pool plugin module
+include(":stalker-mac-pool")
+project(":stalker-mac-pool").projectDir = file("plugins/stalker-mac-pool")

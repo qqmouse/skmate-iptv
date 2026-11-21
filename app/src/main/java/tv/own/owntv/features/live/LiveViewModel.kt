@@ -1714,6 +1714,20 @@ class LiveViewModel(
         recordLiveHistory(channel)
     }
 
+    // [PLUGIN:stalker-mac-pool] Reopen the current channel after a Stalker source/MAC update.
+    fun reopenCurrentAfterSourceUpdate() {
+        val ch = _previewChannel.value ?: return
+        viewModelScope.launch {
+            live.stop()
+            val freshChannel = withContext(Dispatchers.IO) { channelDao.getById(ch.id) } ?: ch
+            val freshSource = withContext(Dispatchers.IO) { sourceDao.getById(freshChannel.sourceId) }
+            if (freshSource != null) {
+                sourceById = sourceById + (freshSource.id to freshSource)
+            }
+            ensurePlaying(freshChannel)
+        }
+    }
+
     /** HUD "compatibility mode" toggle: flip the current channel's engine and pin the choice. */
     fun toggleForceMpv() {
         // A catch-up archive is loaded, not the live stream: re-tuning here would replace the programme

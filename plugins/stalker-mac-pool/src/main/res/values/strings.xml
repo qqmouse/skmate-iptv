@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="smp_menu_title">Stalker MAC Pool</string>
+    <string name="smp_menu_desc">Import JSON portals, test real speed, manage MAC failover</string>
+    <string name="smp_pick_json_title">Select Stalker JSON file</string>
+
+    <string name="smp_toolbar_import_local">Import Local JSON</string>
+    <string name="smp_toolbar_import_lan">LAN QR Upload</string>
+    <string name="smp_toolbar_speed_all">Test All (1-Thread)</string>
+    <string name="smp_toolbar_speed_untested">Test Untested</string>
+    <string name="smp_toolbar_speed_stop">Stop Test</string>
+    <string name="smp_toolbar_sort">Sort: %1$s</string>
+    <string name="smp_toolbar_auto_switch">Auto-switch 458/403: %1$s</string>
+    <string name="smp_toolbar_clear">Clear Pool</string>
+    <string name="smp_state_on">ON</string>
+    <string name="smp_state_off">OFF</string>
+
+    <string name="smp_sort_speed">Fastest</string>
+    <string name="smp_sort_ping">Lowest Ping</string>
+    <string name="smp_sort_mac_count">Most MACs</string>
+    <string name="smp_sort_channels">Most Channels</string>
+
+    <string name="smp_summary_bar">Servers: %1$d | MACs: %2$d | Auto-switch: %3$s</string>
+    <string name="smp_empty_title">No Stalker servers imported yet</string>
+    <string name="smp_empty_body">Use Import Local JSON or LAN QR Upload above to load an exported Stalker JSON array. Records are grouped by server automatically.</string>
+
+    <string name="smp_progress_ping">Stage 1/2 Connectivity (%1$d/%2$d) · %3$s · Alive: %4$d</string>
+    <string name="smp_progress_stream">Stage 2/2 Stream Speed (%1$d/%2$d) · %3$s</string>
+    <string name="smp_progress_idle">Idle</string>
+
+    <string name="smp_badge_active_source">ACTIVE SOURCE</string>
+    <string name="smp_badge_active_mac">CURRENT MAC</string>
+    <string name="smp_speed_untested">Untested</string>
+    <string name="smp_speed_pinging">Pinging…</string>
+    <string name="smp_speed_streaming">Testing stream…</string>
+    <string name="smp_speed_unreachable">Unreachable</string>
+    <string name="smp_speed_ping_only">Ping %1$dms (no stream)</string>
+    <string name="smp_speed_full">%1$s · %2$dms</string>
+    <string name="smp_speed_mbps">%1$.2f MB/s</string>
+    <string name="smp_speed_kbps">%1$.0f KB/s</string>
+
+    <string name="smp_server_mac_ratio">MAC: %1$d/%2$d</string>
+    <string name="smp_server_max_ch">Max CH: %1$d</string>
+    <string name="smp_action_test_server">Test Server</string>
+    <string name="smp_action_activate_source">Use as Source &amp; Sync</string>
+    <string name="smp_action_update_mac_sync">Switch MAC &amp; Sync</string>
+    <string name="smp_action_delete_server">Remove Server</string>
+
+    <string name="smp_mac_status_ok">Healthy</string>
+    <string name="smp_mac_status_cooldown">Busy (%1$dm)</string>
+    <string name="smp_mac_status_failed">Auth Failed</string>
+    <string name="smp_mac_status_expired">Expired</string>
+    <string name="smp_mac_status_untested">Ready</string>
+    <string name="smp_mac_meta_ch">CH: %1$d</string>
+    <string name="smp_mac_meta_conn">Conn: %1$s</string>
+    <string name="smp_mac_meta_exp">Exp: %1$s</string>
+    <string name="smp_unknown">Unknown</string>
+    <string name="smp_unlimited">Unlimited</string>
+
+    <string name="smp_import_mode_title">Choose Import Mode</string>
+    <string name="smp_import_mode_body">The pool already has data. Merge keeps existing servers and speed results; Replace clears old pool data first.</string>
+    <string name="smp_import_mode_merge">Merge</string>
+    <string name="smp_import_mode_replace">Replace All</string>
+    <string name="smp_common_cancel">Cancel</string>
+    <string name="smp_common_close">Close</string>
+    <string name="smp_common_confirm">Confirm</string>
+
+    <string name="smp_clear_confirm_title">Clear Stalker MAC Pool?</string>
+    <string name="smp_clear_confirm_body">This removes imported servers, MACs, and speed results inside the plugin only. Your existing TV playlists will not be deleted.</string>
+
+    <string name="smp_lan_title">LAN QR JSON Upload</string>
+    <string name="smp_lan_subtitle">Scan with your phone or open the address below on a PC in the same Wi-Fi/LAN:</string>
+    <string name="smp_lan_starting">Starting local upload server…</string>
+    <string name="smp_lan_failed">Could not start LAN server: %1$s</string>
+    <string name="smp_lan_uploaded">Uploaded: servers=%1$d, MACs=%2$d</string>
+    <string name="smp_lan_hint">Keep this window open until the browser reports upload complete.</string>
+
+    <string name="smp_import_result">Imported: added=%1$d, updated=%2$d (servers=%3$d, MACs=%4$d)</string>
+    <string name="smp_import_failed">Import failed: %1$s</string>
+    <string name="smp_source_activated">Source ready (%1$s · %2$s), syncing catalog…</string>
+    <string name="smp_source_activate_failed">Could not activate source: %1$s</string>
+
+    <string name="smp_hud_switch_mac">Switch MAC</string>
+    <string name="smp_error_switch_mac">Switch Next MAC (Remaining: %1$d)</string>
+    <string name="smp_error_pick_mac">Choose MAC</string>
+    <string name="smp_switching_mac">Switching MAC &amp; reconnecting…</string>
+    <string name="smp_switched_mac_toast">Switched MAC: %1$s (%2$d/%3$d)</string>
+    <string name="smp_switch_no_candidate">No usable alternate MAC available for this server</string>
+    <string name="smp_switch_failed">MAC switch failed: %1$s</string>
+    <string name="smp_auto_switch_notice">Conflict detected — trying next MAC (%1$s)…</string>
+
+    <string name="smp_picker_title">Switch Stalker MAC</string>
+    <string name="smp_picker_subtitle">Server: %1$s · Active: %2$s</string>
+    <string name="smp_picker_next_btn">Switch to Next Recommended MAC (Available: %1$d)</string>
+    <string name="smp_picker_auto_toggle">Auto-switch on 458/403 conflict: %1$s</string>
+    <string name="smp_picker_empty">No alternate MACs in pool for this server.</string>
+</resources>

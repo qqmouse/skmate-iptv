@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="smp_menu_title">Stalker MAC 池</string>
+    <string name="smp_menu_desc">导入 JSON 列表、服务器测速排序、播放故障一键换 MAC</string>
+    <string name="smp_pick_json_title">选择 Stalker JSON 文件</string>
+
+    <string name="smp_toolbar_import_local">本地导入 JSON</string>
+    <string name="smp_toolbar_import_lan">局域网扫码上传</string>
+    <string name="smp_toolbar_speed_all">全量测速(单线程)</string>
+    <string name="smp_toolbar_speed_untested">仅测未测项</string>
+    <string name="smp_toolbar_speed_stop">停止测速</string>
+    <string name="smp_toolbar_sort">排序: %1$s</string>
+    <string name="smp_toolbar_auto_switch">458/403 自动换号: %1$s</string>
+    <string name="smp_toolbar_clear">清空池</string>
+    <string name="smp_state_on">开</string>
+    <string name="smp_state_off">关</string>
+
+    <string name="smp_sort_speed">实测速度最快</string>
+    <string name="smp_sort_ping">延迟最低</string>
+    <string name="smp_sort_mac_count">MAC 最多</string>
+    <string name="smp_sort_channels">频道数最多</string>
+
+    <string name="smp_summary_bar">服务器: %1$d | MAC 总数: %2$d | 自动换号: %3$s</string>
+    <string name="smp_empty_title">尚未导入 Stalker MAC 列表</string>
+    <string name="smp_empty_body">请点击上方“本地导入 JSON”或“局域网扫码上传”导入 JSON 数组文件，系统会自动按服务器分类汇总去重。</string>
+
+    <string name="smp_progress_ping">阶段 1/2 连通性探测 (%1$d/%2$d) · %3$s · 存活: %4$d</string>
+    <string name="smp_progress_stream">阶段 2/2 真实拉流测速 (%1$d/%2$d) · %3$s</string>
+    <string name="smp_progress_idle">空闲</string>
+
+    <string name="smp_badge_active_source">当前使用源</string>
+    <string name="smp_badge_active_mac">当前 MAC</string>
+    <string name="smp_speed_untested">未测速</string>
+    <string name="smp_speed_pinging">探测延迟中…</string>
+    <string name="smp_speed_streaming">拉流测速中…</string>
+    <string name="smp_speed_unreachable">不可达</string>
+    <string name="smp_speed_ping_only">%1$dms (流不可用)</string>
+    <string name="smp_speed_full">%1$s · %2$dms</string>
+    <string name="smp_speed_mbps">%1$.2f MB/s</string>
+    <string name="smp_speed_kbps">%1$.0f KB/s</string>
+
+    <string name="smp_server_mac_ratio">可用 MAC: %1$d/%2$d</string>
+    <string name="smp_server_max_ch">最多频道: %1$d</string>
+    <string name="smp_action_test_server">单测该服务器</string>
+    <string name="smp_action_activate_source">设为播放源并同步</string>
+    <string name="smp_action_update_mac_sync">切换为此 MAC 并同步</string>
+    <string name="smp_action_delete_server">删除该服务器</string>
+
+    <string name="smp_mac_status_ok">正常</string>
+    <string name="smp_mac_status_cooldown">占线冷却 (%1$d分)</string>
+    <string name="smp_mac_status_failed">鉴权失效</string>
+    <string name="smp_mac_status_expired">已过期</string>
+    <string name="smp_mac_status_untested">待使用</string>
+    <string name="smp_mac_meta_ch">频道: %1$d</string>
+    <string name="smp_mac_meta_conn">连接数: %1$s</string>
+    <string name="smp_mac_meta_exp">到期: %1$s</string>
+    <string name="smp_unknown">未知</string>
+    <string name="smp_unlimited">无期限</string>
+
+    <string name="smp_import_mode_title">选择导入方式</string>
+    <string name="smp_import_mode_body">MAC 池中已有数据。选择“合并导入”可保留现有服务器与测速记录；“清空覆盖”将先清空旧数据。</string>
+    <string name="smp_import_mode_merge">合并导入</string>
+    <string name="smp_import_mode_replace">清空覆盖</string>
+    <string name="smp_common_cancel">取消</string>
+    <string name="smp_common_close">关闭</string>
+    <string name="smp_common_confirm">确定</string>
+
+    <string name="smp_clear_confirm_title">确认清空 Stalker MAC 池？</string>
+    <string name="smp_clear_confirm_body">仅清除插件内保存的服务器、MAC 列表和测速记录，不会删除你已添加到电视中的播放源。</string>
+
+    <string name="smp_lan_title">局域网扫码上传 JSON</string>
+    <string name="smp_lan_subtitle">使用同一 Wi-Fi / 局域网下的手机扫码，或在电脑浏览器打开下方地址上传文件：</string>
+    <string name="smp_lan_starting">正在启动局域网上传服务…</string>
+    <string name="smp_lan_failed">局域网服务启动失败: %1$s</string>
+    <string name="smp_lan_uploaded">已接收上传：新增/更新服务器 %1$d 个，MAC %2$d 条</string>
+    <string name="smp_lan_hint">请在手机或电脑页面提示上传成功后，再关闭此窗口。</string>
+
+    <string name="smp_import_result">导入完成：新增 %1$d，更新 %2$d（当前共 %3$d 台服务器 / %4$d 条 MAC）</string>
+    <string name="smp_import_failed">导入失败: %1$s</string>
+    <string name="smp_source_activated">已启用播放源（%1$s · %2$s），正在后台同步频道…</string>
+    <string name="smp_source_activate_failed">启用播放源失败: %1$s</string>
+
+    <string name="smp_hud_switch_mac">切换 MAC</string>
+    <string name="smp_error_switch_mac">切换下一个 MAC（剩余 %1$d 个）</string>
+    <string name="smp_error_pick_mac">选择 MAC</string>
+    <string name="smp_switching_mac">正在切换 MAC 并重连…</string>
+    <string name="smp_switched_mac_toast">已切换 MAC: %1$s (%2$d/%3$d)</string>
+    <string name="smp_switch_no_candidate">当前服务器暂无其他可用备用 MAC</string>
+    <string name="smp_switch_failed">切换 MAC 失败: %1$s</string>
+    <string name="smp_auto_switch_notice">检测到多用户/拒绝错误，正在自动切换 MAC (%1$s)…</string>
+
+    <string name="smp_picker_title">快速切换 Stalker MAC</string>
+    <string name="smp_picker_subtitle">服务器: %1$s · 当前 MAC: %2$s</string>
+    <string name="smp_picker_next_btn">一键切换到下一个推荐 MAC（%1$d 个可用）</string>
+    <string name="smp_picker_auto_toggle">458/403 报错自动换 MAC: %1$s</string>
+    <string name="smp_picker_empty">当前服务器在 MAC 池中没有备用 MAC。</string>
+</resources>

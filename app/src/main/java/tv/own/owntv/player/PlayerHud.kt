@@ -305,7 +305,8 @@ fun PlayerHud(
     // Used only by "Report this stream", which writes the current readout into the playback log.
     val reportContext = androidx.compose.ui.platform.LocalContext.current
     var wakeTick by remember { mutableIntStateOf(0) }
-    val forceShow = error != null || dialog != HudDialog.NONE
+    val macHud = tv.own.owntv.plugin.rememberStalkerMacHudHandle(error, errorInfo) // [PLUGIN:stalker-mac-pool]
+    val forceShow = error != null || dialog != HudDialog.NONE || macHud.showPicker // [PLUGIN:stalker-mac-pool]
     // First Back hides the controls (instead of leaving the channel); with the controls already hidden
     // this handler is disabled, so Back falls through to the shell, which exits the player. Also disabled
     // while an error/dialog is up (a dialog handles its own Back; an error should exit).
@@ -468,10 +469,10 @@ fun PlayerHud(
             controlsVisible = false
         }
     }
-    LaunchedEffect(controlsVisible, error, dialog, inert, showNextCard) {
+    LaunchedEffect(controlsVisible, error, dialog, inert, showNextCard, macHud.showPicker) { // [PLUGIN:stalker-mac-pool]
         // Never steal focus while a dialog is open (its rows own it) or while a shell overlay is up
         // (inert — the overlay owns the D-pad); when either closes this re-runs and hands focus back.
-        if (dialog != HudDialog.NONE || inert) return@LaunchedEffect
+        if (dialog != HudDialog.NONE || inert || macHud.showPicker) return@LaunchedEffect // [PLUGIN:stalker-mac-pool]
         // The next-episode countdown card owns focus while it's up so Play now / Cancel are reachable.
         if (showNextCard) { runCatching { nextFocus.requestFocus() }; return@LaunchedEffect }
         if (controlsVisible) {
@@ -754,6 +755,8 @@ fun PlayerHud(
                             onPip?.let { TvBoxAction(stringResource(R.string.player_tool_mini), OwnTVIcon.PIP, { controlsVisible = false; it() }) },
                             onMultiview?.let { TvBoxAction(stringResource(R.string.multiview_button), OwnTVIcon.LIST_GRID, { controlsVisible = false; it() }) },
                             onAudioMode?.let { TvBoxAction(stringResource(R.string.player_tool_audio_only), OwnTVIcon.HEADPHONES, { controlsVisible = false; it() }) },
+                            // [PLUGIN:stalker-mac-pool]
+                            if (macHud.canSwitch) TvBoxAction(stringResource(tv.own.owntv.plugin.stalkermacpool.R.string.smp_hud_switch_mac), OwnTVIcon.SWAP, macHud.openPicker) else null,
                             TvBoxAction(stringResource(R.string.player_sleep_timer), OwnTVIcon.BEDTIME, { dialog = HudDialog.SLEEP_TIMER }),
                         ),
                         firstFocus = tvActionFocus,
@@ -821,6 +824,7 @@ fun PlayerHud(
                     onOpenJumpBack = if (onJumpBack != null) { { dialog = HudDialog.JUMP_BACK } } else null,
                     onPreviousChannel = onPreviousChannel,
                     onOtherChannels = onOtherChannels, otherChannelsCount = otherChannelsCount,
+                    onSwitchMac = if (macHud.canSwitch) macHud.openPicker else null, // [PLUGIN:stalker-mac-pool]
                     compatMode = compatMode, onToggleCompatMode = toggleCompat,
                     vodOnExo = vodOnExo, onToggleVodEngine = toggleVod,
                     onInfo = { showInfo = !showInfo }, infoOn = showInfo,
@@ -956,6 +960,12 @@ fun PlayerHud(
                         )
                         tv.own.owntv.ui.stage.ErrorButton(stringResource(R.string.settings_close), onClick = onBack)
                     }
+                } else if (macHud.canSwitch) { // [PLUGIN:stalker-mac-pool]
+                    tv.own.owntv.plugin.StalkerMacErrorButtons(
+                        handle = macHud,
+                        primaryFocus = retryFocus,
+                        onRetry = { player.retry() },
+                    )
                 } else {
                     tv.own.owntv.ui.stage.ErrorButton(stringResource(R.string.common_retry), onClick = { player.retry() }, modifier = Modifier.focusRequester(retryFocus))
                 }
@@ -1091,6 +1101,8 @@ fun PlayerHud(
         }
         HudDialog.NONE -> Unit
     }
+
+    tv.own.owntv.plugin.StalkerMacQuickPickerHost(macHud) // [PLUGIN:stalker-mac-pool]
 }
 
 /** The TV-box info and tiles fading and sliding in and out. */
